@@ -3,4 +3,7 @@ from .models import ProductCategory
 
 # Register your models here.
 
-admin.site.register(ProductCategory);
+@admin.register(ProductCategory)
+class ProductCategoryAdmin(admin.ModelAdmin):
+    list_display = ['name', 'slug']
+

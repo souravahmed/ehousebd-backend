@@ -5,7 +5,7 @@ from .models import ProductCategory
 class ProductCategorySerializer(serializers.ModelSerializer):
     class Meta:
         model = ProductCategory
-        fields = ['name', 'description', 'id']
+        fields = ['name', 'description', 'id', 'slug']
         
     
     def create(self, validated_data):
