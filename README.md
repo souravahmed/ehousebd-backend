@@ -13,6 +13,14 @@ python manage.py makemigrations
 python manage.py migrate
 ```
 
+run backup.sql file in pgAdmin. to login admin panel follow below instructions
+
+```sh
+url -> http://localhost:8000/admin
+email address -> sourav@gmail.com
+password -> sourav101
+```
+
 ## Features
 
 - JWT authentication
