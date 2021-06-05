@@ -11,6 +11,7 @@ class Product(models.Model):
     name = models.CharField(max_length=255)
     display_name = models.CharField(max_length=255, blank=True, null=True)
     slug = models.SlugField(blank=True, max_length=255, unique_for_date='created_at', editable=False, default='')
+    price = models.IntegerField(default=0)
     short_description = models.CharField(max_length=1000, blank=True, null=True)
     long_description = models.TextField(blank=True, null=True)
     is_active = models.BooleanField(default=False)
