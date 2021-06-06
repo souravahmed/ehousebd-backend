@@ -1,11 +1,13 @@
 
 from rest_framework import serializers
 from .models import ProductCategory
+from product.serializer import ProductSerializer
 
 class ProductCategorySerializer(serializers.ModelSerializer):
+    products = ProductSerializer(many=True, read_only=True)
     class Meta:
         model = ProductCategory
-        fields = ['name', 'description', 'id', 'slug']
+        fields = ['name', 'description', 'id', 'slug', 'products']
         
     
     def create(self, validated_data):
