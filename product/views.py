@@ -1,3 +1,4 @@
+from rest_framework.fields import empty
 from product import serializer
 from product.serializer import ProductSerializer
 from rest_framework.response import Response
@@ -11,14 +12,21 @@ from .models import Product
 @api_view(['GET'])
 @permission_classes([AllowAny])
 def index(request):
+    
     products = Product.objects.filter(is_active=True)
+    
+    if 'filter_by' in request.query_params:
+        category_slug = request.query_params['filter_by'].strip()
+        if category_slug:
+            products = products.filter(category__slug=category_slug)
+        
+    if 'sort_by' in request.query_params and 'order_by' in request.query_params :
+        sort_by = request.query_params['sort_by'].strip()
+        order_by = request.query_params['order_by'].strip()
+        if  (order_by and sort_by) and sort_by.lower() in ['price']:
+            products =  products.order_by('-price') if order_by.lower() == 'desc' else products.order_by('price')
+            
+        
     serializer = ProductSerializer(products, many=True)
     return Response(serializer.data, status=status.HTTP_200_OK)
 
-@api_view(['GET'])
-@permission_classes([AllowAny])
-def get_products_by_category_slug(request, category_slug):
-    print(category_slug)
-    products = Product.objects.filter(category__slug=category_slug)
-    serializer = ProductSerializer(products, many=True)
-    return Response(serializer.data, status=status.HTTP_200_OK)

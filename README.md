@@ -28,3 +28,4 @@ password -> sourav101
 - categories CRUD
 - product variation
 - product image gallery
+- product filters
