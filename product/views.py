@@ -15,6 +15,11 @@ def index(request):
     
     products = Product.objects.filter(is_active=True)
     
+    if 'category_slug' in request.query_params:
+        category_slug = request.query_params['category_slug'].strip()
+        if category_slug:
+            products = products.filter(category__slug = category_slug)
+            
     if 'filter_by' in request.query_params:
         category_slug = request.query_params['filter_by'].strip()
         if category_slug:
