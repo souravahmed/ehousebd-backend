@@ -47,17 +47,13 @@ INSTALLED_APPS = [
     'corsheaders',
     
     #project apps
-    'product_category',
     'user',
     'user_address',
-    'product',
-    'variant',
-    'variant_value',
-    'product_variant',
-    'product_combination',
-    'product_image_gallery',
-    'product_image',
-    'product_banner'
+    'category',
+    'banner',
+    'brand',
+    'size',
+    'color'
 ]
 
 MIDDLEWARE = [

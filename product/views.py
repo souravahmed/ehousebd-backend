@@ -1,3 +1,4 @@
+from product_variant.models import ProductVariant
 from rest_framework.fields import empty
 from product import serializer
 from product.serializer import ProductSerializer
@@ -19,6 +20,12 @@ def index(request):
         category_slug = request.query_params['category_slug'].strip()
         if category_slug:
             products = products.filter(category__slug = category_slug)
+    
+    if 'color' in request.query_params:
+        color = request.query_params['color'].strip()
+        if color:
+            demo = ProductVariant.objects.filter(variant_value__value__in = ['Black'])
+            print(demo)
             
     if 'filter_by' in request.query_params:
         category_slug = request.query_params['filter_by'].strip()

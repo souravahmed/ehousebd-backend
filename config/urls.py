@@ -24,14 +24,13 @@ from django.conf.urls.static import static
 
 urlpatterns = [
     path('admin/', admin.site.urls),
-    path('api/product_categories/', include('product_category.urls')),
-    path('api/products/', include('product.urls')),
+    path('api/categories/', include('category.urls')),
+    path('api/banners/', include('banner.urls')),
+    path('api/brands/', include('brand.urls')),
+    path('api/sizes/', include('size.urls')),
+    path('api/colors/', include('color.urls')),
     path('api/users/', include('user.urls')),
     path('api/user_addresses/', include('user_address.urls')),
-    path('api/variants/', include('variant.urls')),
-    path('api/variant_values/', include('variant_value.urls')),
-    path('api/product_banners/', include('product_banner.urls')),
-    path('api/product_image_gallery/', include('product_image_gallery.urls'))
 ]
 
 if settings.DEBUG:

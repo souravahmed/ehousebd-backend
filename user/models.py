@@ -19,8 +19,6 @@ class User(AbstractBaseUser, PermissionsMixin):
     date_joined = models.DateTimeField(auto_now_add=timezone.now())
     USERNAME_FIELD = 'email'
     objects = UserManager()
-
-    
     
     def __str__(self):
         return self.email
