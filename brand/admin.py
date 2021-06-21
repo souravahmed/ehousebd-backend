@@ -9,4 +9,4 @@ class BrandAdmin(admin.ModelAdmin):
         if obj.image_path:
             return format_html('<img src="{}" width="auto" height="100px" />'.format(obj.image_path.url))
 
-    list_display = ['name', 'display_name', 'slug', 'image_tag']
+    list_display = ['name', 'display_name', 'slug', 'image_tag', 'is_active']

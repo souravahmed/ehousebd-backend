@@ -6,15 +6,19 @@ from django.utils.text import slugify
 
 class Brand(models.Model):
     def brand_path(instance, filename):
-        return f'Brand/{instance.slug}/{filename}'
+        return f'Brands/{instance.slug}/{filename}'
     
     name = models.CharField(max_length=250)
     display_name = models.CharField(max_length=250)
     slug = models.SlugField(blank=True, max_length=255, unique_for_date='created', editable=False, default='')
     image_path = models.ImageField(upload_to=brand_path)
+    is_active = models.BooleanField(default=False)
     created = models.DateTimeField(auto_now_add=timezone.now())
     updated = models.DateTimeField(auto_now=timezone.now())
     
+    
+    def __str__(self):
+        return self.display_name
     
         
     def save(self, *args, **kwargs):

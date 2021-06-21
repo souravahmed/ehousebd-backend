@@ -1,22 +1,24 @@
 from django.db import models
 from django.utils import timezone
-from product_category.models import ProductCategory
+from category.models import Category
+from brand.models import Brand
 from django.utils.text import slugify
 
 # Create your models here.
 
 class Product(models.Model):
     
-    category =  models.ForeignKey(ProductCategory, related_name='products', on_delete=models.CASCADE)
     name = models.CharField(max_length=255)
     display_name = models.CharField(max_length=255, blank=True, null=True)
-    slug = models.SlugField(blank=True, max_length=255, unique_for_date='created_at', editable=False, default='')
-    price = models.IntegerField(default=0)
-    short_description = models.CharField(max_length=1000, blank=True, null=True)
-    long_description = models.TextField(blank=True, null=True)
+    slug = models.SlugField(blank=True, max_length=255, unique_for_date='created', editable=False, default='')
+    desc = models.TextField(blank=True, null=True)
+    spec = models.TextField(blank=True, null=True)
+    category =  models.ForeignKey(Category, related_name='products', on_delete=models.CASCADE)
+    brand = models.ForeignKey(Brand, related_name='products', on_delete=models.CASCADE)
     is_active = models.BooleanField(default=False)
-    created_at = models.DateTimeField(auto_now_add=timezone.now())
-    updated_at = models.DateTimeField(auto_now=timezone.now())
+    is_featured = models.BooleanField(default=False)
+    created = models.DateTimeField(auto_now_add=timezone.now())
+    updated = models.DateTimeField(auto_now=timezone.now())
     
     def save(self, *args, **kwargs):
         slug = slugify(self.name, allow_unicode=True)

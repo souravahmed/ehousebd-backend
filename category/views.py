@@ -16,6 +16,16 @@ def get_categories(request):
     serialized = CategorySerializer(categories,many=True)
     return Response(serialized.data, status=status.HTTP_200_OK)
 
+@api_view(['GET'])
+@permission_classes([AllowAny])
+def get_featured_categories(request):
+    categories = Category.objects.filter(is_featured=True)
+    serialized = CategorySerializer(categories, many=True)
+    return Response(serialized.data, status=status.HTTP_200_OK)
+    
+    
+    
+    
 @api_view(['POST'])
 def create_category(request):
     serialized = CategorySerializer(data=request.data)

@@ -8,7 +8,7 @@ class CategorySerializer(serializers.ModelSerializer):
     children = RecursiveField(many=True, read_only=True)
     class Meta:
         model = Category
-        fields = ['id', 'children', 'slug', 'name', 'display_name', 'image_path']
+        fields = ['id','parent', 'children', 'slug', 'name', 'display_name', 'image_path', 'is_featured']
         
     
     def create(self, validated_data):

@@ -9,7 +9,7 @@ from rest_framework.permissions import AllowAny
 @api_view(['GET'])
 @permission_classes([AllowAny])
 def get_brands(request):
-    brands = Brand.objects.all()
+    brands = Brand.objects.filter(is_active=True)
     serialized = BrandSerializer(brands,many=True)
     return Response(serialized.data, status=status.HTTP_200_OK)
 

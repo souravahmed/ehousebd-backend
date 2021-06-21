@@ -6,7 +6,7 @@ from django.utils import timezone
 class Banner(models.Model):
     def get_upload_path(instance, filename):
         today = date.today().strftime('%d-%m-%Y')
-        return f'Banner/{today}/{filename}'
+        return f'Banners/{today}/{filename}'
     
     name = models.CharField(max_length=150)
     image_path = models.ImageField(upload_to=get_upload_path)
