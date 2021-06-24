@@ -1,8 +1,10 @@
+from django.db.models import query
+from category.selectors.category_selector import CategorySelector
 from .models import Category
 from .serializer import CategorySerializer
 from rest_framework.response import Response
 from rest_framework.decorators import api_view, permission_classes
-from rest_framework import status
+from rest_framework import fields, status
 from rest_framework.permissions import AllowAny
 
 
@@ -12,15 +14,16 @@ from rest_framework.permissions import AllowAny
 @api_view(['GET'])
 @permission_classes([AllowAny])
 def get_categories(request):
-    categories = Category.objects.filter(parent__isnull=True)
-    serialized = CategorySerializer(categories,many=True)
+    
+    categories = CategorySelector.filter_category(parent__isnull=True)    
+    serialized = CategorySerializer(categories,many=True, exclude_fields=('name', 'is_featured'))
     return Response(serialized.data, status=status.HTTP_200_OK)
 
 @api_view(['GET'])
 @permission_classes([AllowAny])
 def get_featured_categories(request):
-    categories = Category.objects.filter(is_featured=True)
-    serialized = CategorySerializer(categories, many=True)
+    categories = CategorySelector.filter_category(is_featured=True)
+    serialized = CategorySerializer(categories, many=True, exclude_fields=('name', 'is_featured', 'children'))
     return Response(serialized.data, status=status.HTTP_200_OK)
     
     

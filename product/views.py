@@ -1,12 +1,12 @@
-from product_variant.models import ProductVariant
-from rest_framework.fields import empty
-from product import serializer
+
+from size.serializer import SizeSerializer
+from color.serializer import ColorSerializer
+from product.selectors.product_selector import ProductSelector
 from product.serializer import ProductSerializer
 from rest_framework.response import Response
 from rest_framework.decorators import api_view, permission_classes
 from rest_framework import status
 from rest_framework.permissions import AllowAny
-from .models import Product
 # Create your views here.
 
 
@@ -14,31 +14,40 @@ from .models import Product
 @permission_classes([AllowAny])
 def index(request):
     
-    products = Product.objects.filter(is_active=True)
-    
-    if 'category_slug' in request.query_params:
-        category_slug = request.query_params['category_slug'].strip()
-        if category_slug:
-            products = products.filter(category__slug = category_slug)
-    
-    if 'color' in request.query_params:
-        color = request.query_params['color'].strip()
-        if color:
-            demo = ProductVariant.objects.filter(variant_value__value__in = ['Black'])
-            print(demo)
-            
-    if 'filter_by' in request.query_params:
-        category_slug = request.query_params['filter_by'].strip()
-        if category_slug:
-            products = products.filter(category__slug=category_slug)
+    products = ProductSelector.get_all()
         
     if 'sort_by' in request.query_params and 'order_by' in request.query_params :
         sort_by = request.query_params['sort_by'].strip()
         order_by = request.query_params['order_by'].strip()
-        if  (order_by and sort_by) and sort_by.lower() in ['price']:
-            products =  products.order_by('-price') if order_by.lower() == 'desc' else products.order_by('price')
-            
-        
-    serializer = ProductSerializer(products, many=True)
-    return Response(serializer.data, status=status.HTTP_200_OK)
+        if sort_by and order_by:
+            products =  ProductSelector.sort_by_product_attribute(products, sort_by, order_by)    
+    
+    data = ProductSerializer(products, many=True, exclude_fields=['name']).data
+    return Response(data, status=status.HTTP_200_OK)
 
+
+
+@api_view(['GET'])
+@permission_classes([AllowAny])
+def get_featured_products(request):
+    products = ProductSelector.get_featured_products()
+    data= ProductSerializer(products, many=True, exclude_fields=['name']).data
+    return Response(data, status=status.HTTP_200_OK)
+
+@api_view(['GET'])
+@permission_classes([AllowAny])
+def get_brand_products(request, brand_slug):
+    products = ProductSelector.get_brand_products(brand_slug)
+    data = ProductSerializer(products, many=True, exclude_fields=['name']).data
+    return Response(data, status=status.HTTP_200_OK)
+
+
+@api_view(['GET'])
+@permission_classes([AllowAny])
+def get_product_filters(request):
+    colorFilters = ProductSelector.get_product_colors()
+    colorData = ColorSerializer(colorFilters, many=True).data
+    sizeFilters = ProductSelector.get_product_sizes()
+    sizeData = SizeSerializer(sizeFilters, many=True).data
+    
+    return Response({'colors': colorData, 'sizes' : sizeData}, status=status.HTTP_200_OK)

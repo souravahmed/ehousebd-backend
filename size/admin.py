@@ -5,4 +5,4 @@ from django.contrib import admin
 
 @admin.register(Size)
 class SizeAdmin(admin.ModelAdmin):
-    list_display = ['type', 'display_type']
+    list_display = ['name', 'display_name']
