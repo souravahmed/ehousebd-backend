@@ -19,6 +19,7 @@ run backup.sql file in pgAdmin. to login admin panel follow below instructions
 url -> http://localhost:8000/admin
 email address -> sourav@gmail.com
 password -> sourav101
+
 ```
 
 ## Features
