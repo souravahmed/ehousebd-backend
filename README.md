@@ -22,6 +22,10 @@ password -> sourav101
 
 ```
 
+## Swagger Integrated
+
+Api doc: [here](http://localhost:8000/swagger/)
+
 ## Features
 
 - JWT authentication
